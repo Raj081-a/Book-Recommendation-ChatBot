@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BookSage AI Chatbot</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4CAF50; /* Green */
+            --secondary-color: #2196F3; /* Blue */
+            --text-dark: #333;
+            --text-light: #666;
+            --bg-light: #f9f9f9;
+            --bg-white: #ffffff;
+            --shadow-light: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            background-color: var(--bg-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Full viewport height */
+            color: var(--text-dark);
+            box-sizing: border-box; /* Include padding/border in element's total width/height */
+        }
+
+        .container {
+            background-color: var(--bg-white);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-light);
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        p {
+            color: var(--text-light);
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .cta-button:hover {
+            background-color: #1976D2; /* Darker blue */
+            transform: translateY(-2px);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+            h1 {
+                font-size: 2em;
+            }
+            p {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to BookSage AI!</h1>
+        <p>Your intelligent assistant for personalized book recommendations. We help you discover your next great read by understanding your preferences.</p>
+        <p>Click the chat icon in the bottom right corner to begin your personalized journey!</p>
+        </div>
+
+<script>
+    window.watsonAssistantChatOptions = {
+        integrationID: "3a57fc26-bc28-4c2b-93c6-616d8bad69a8", // The ID of this integration.
+        region: "us-south", // The region your integration is hosted in.
+        serviceInstanceID: "b49157ce-2fd7-4ad3-b576-44ed1ad9e3f0", // The ID of your service instance.
+        onLoad: async (instance) => { await instance.render(); }
+    };
+    setTimeout(function(){
+        const t=document.createElement('script');
+        t.src="https://web-chat.global.assistant.watson.appdomain.cloud/versions/" + (window.watsonAssistantChatOptions.clientVersion || 'latest') + "/WatsonAssistantChatEntry.js";
+        document.head.appendChild(t);
+    });
+</script>
+
+</body>
+</html>
