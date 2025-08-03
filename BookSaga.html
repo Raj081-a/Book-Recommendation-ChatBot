@@ -1,104 +1,288 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>BookSage AI Chatbot</title>
+    <title>BookSage AI - Your Personal Book Advisor</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #4CAF50; /* Green */
-            --secondary-color: #2196F3; /* Blue */
-            --text-dark: #333;
-            --text-light: #666;
-            --bg-light: #f9f9f9;
-            --bg-white: #ffffff;
-            --shadow-light: 0 4px 8px rgba(0,0,0,0.1);
+            --primary-color: #2E7D32; /* Darker Green */
+            --secondary-color: #1565C0; /* Darker Blue */
+            --bg-light: #f4f7f6;
+            --text-dark: #2c3e50;
+            --text-light: #7f8c8d;
+            --surface-light: #ffffff;
+            --shadow-light: 0 10px 30px rgba(0, 0, 0, 0.07);
+
+            --bg-dark: #2c3e50;
+            --text-dark-theme: #ecf0f1;
+            --text-light-dark-theme: #bdc3c7;
+            --surface-dark: #34495e;
+            --shadow-dark: 0 10px 30px rgba(0, 0, 0, 0.2);
+            
+            --transition-speed: 0.4s;
+        }
+
+        html.dark {
+            --primary-color: #66BB6A; /* Lighter Green for dark mode */
+            --secondary-color: #42A5F5; /* Lighter Blue for dark mode */
+            --bg-light: var(--bg-dark);
+            --text-dark: var(--text-dark-theme);
+            --text-light: var(--text-light-dark-theme);
+            --surface-light: var(--surface-dark);
+            --shadow-light: var(--shadow-dark);
         }
 
         body {
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Poppins', sans-serif;
             margin: 0;
-            background-color: var(--bg-light);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh; /* Full viewport height */
+            background: var(--bg-light);
             color: var(--text-dark);
-            box-sizing: border-box; /* Include padding/border in element's total width/height */
+            transition: background var(--transition-speed), color var(--transition-speed);
+            overflow-x: hidden;
+        }
+        
+        /* General Animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInAnimation 0.8s ease-out forwards;
         }
 
-        .container {
-            background-color: var(--bg-white);
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: var(--shadow-light);
-            text-align: center;
-            max-width: 600px;
-            width: 90%;
-            animation: fadeIn 1s ease-out;
+        @keyframes fadeInAnimation {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background: var(--surface-light);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: background var(--transition-speed);
         }
 
-        h1 {
+        .logo {
+            font-size: 1.5em;
+            font-weight: 700;
             color: var(--primary-color);
-            font-size: 2.5em;
-            margin-bottom: 15px;
+            transition: color var(--transition-speed);
+        }
+        .logo i {
+            margin-right: 10px;
         }
 
-        p {
+        /* Theme Toggle Switch */
+        .theme-switch-wrapper {
+            display: flex;
+            align-items: center;
+        }
+        .theme-switch {
+            display: inline-block;
+            height: 24px;
+            position: relative;
+            width: 50px;
+            margin: 0 10px;
+        }
+        .theme-switch input {
+            display:none;
+        }
+        .slider {
+            background-color: #ccc;
+            bottom: 0;
+            cursor: pointer;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        .slider:before {
+            background-color: #fff;
+            bottom: 3px;
+            content: "";
+            height: 18px;
+            left: 4px;
+            position: absolute;
+            transition: .4s;
+            width: 18px;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: var(--primary-color);
+        }
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        .theme-switch-wrapper i {
+            font-size: 1.2rem;
             color: var(--text-light);
-            font-size: 1.1em;
-            line-height: 1.6;
-            margin-bottom: 30px;
+            transition: color var(--transition-speed);
+        }
+
+        /* Main Container */
+        .container {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .container h1 {
+            color: var(--text-dark);
+            font-size: 3em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            animation-delay: 0.2s;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .container p.subtitle {
+            color: var(--text-light);
+            font-size: 1.2em;
+            line-height: 1.7;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            animation-delay: 0.4s;
         }
 
         .cta-button {
             display: inline-block;
-            background-color: var(--secondary-color);
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
             color: white;
-            padding: 12px 25px;
-            border-radius: 8px;
+            padding: 15px 35px;
+            border-radius: 50px;
             text-decoration: none;
-            font-weight: bold;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            animation-delay: 0.6s;
+            border: none;
         }
 
         .cta-button:hover {
-            background-color: #1976D2; /* Darker blue */
-            transform: translateY(-2px);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        
+        /* Features Section */
+        .features-section {
+            padding: 60px 20px;
+            background: var(--surface-light);
+            transition: background var(--transition-speed);
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .feature-card {
+            text-align: center;
+            animation-delay: 0.8s;
+        }
+        .feature-card i {
+            font-size: 3em;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+        .feature-card:hover i {
+            transform: scale(1.2);
+        }
+        .feature-card h3 {
+            font-size: 1.4em;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+        }
+        .feature-card p {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-light);
+            font-size: 0.9em;
         }
 
         /* Responsive adjustments */
         @media (max-width: 768px) {
-            .container {
-                padding: 30px 20px;
+            .header {
+                padding: 15px 20px;
             }
-            h1 {
-                font-size: 2em;
+            .container h1 {
+                font-size: 2.2em;
             }
-            p {
+            .container p.subtitle {
                 font-size: 1em;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome to BookSage AI!</h1>
-        <p>Your intelligent assistant for personalized book recommendations. We help you discover your next great read by understanding your preferences.</p>
-        <p>Click the chat icon in the bottom right corner to begin your personalized journey!</p>
+    <header class="header">
+        <div class="logo"><i class="fas fa-book-open"></i>BookSage AI</div>
+        <div class="theme-switch-wrapper">
+            <i class="fas fa-sun"></i>
+            <label class="theme-switch" for="checkbox">
+                <input type="checkbox" id="checkbox" />
+                <div class="slider round"></div>
+            </label>
+            <i class="fas fa-moon"></i>
         </div>
+    </header>
+
+    <div class="container">
+        <h1 class="fade-in">Discover Your Next Favorite Book</h1>
+        <p class="subtitle fade-in">Tired of endless searching? Let BookSage AI, your intelligent reading companion, find personalized book recommendations just for you.</p>
+        <div class="fade-in">
+            <a href="#" class="cta-button" onclick="event.preventDefault(); window.watsonAssistantChat.openWindow();">Start Your Journey</a>
+            <p style="margin-top:20px; font-size: 0.9em;">Click the chat icon in the corner anytime!</p>
+        </div>
+    </div>
+    
+    <section class="features-section">
+        <div class="features-grid">
+            <div class="feature-card fade-in">
+                <i class="fas fa-magic-wand-sparkles"></i>
+                <h3>Personalized Picks</h3>
+                <p>Recommendations based on your unique taste in genres, authors, and moods.</p>
+            </div>
+            <div class="feature-card fade-in">
+                <i class="fas fa-search"></i>
+                <h3>Effortless Discovery</h3>
+                <p>Simply chat with our AI to find hidden gems and popular bestsellers instantly.</p>
+            </div>
+            <div class="feature-card fade-in">
+                <i class="fas fa-comments"></i>
+                <h3>Natural Conversation</h3>
+                <p>A friendly and intuitive chat experience designed for book lovers.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2024 BookSage AI. All Rights Reserved.</p>
+    </footer>
 
 <script>
+    // --- Watson Assistant Chat Integration ---
     window.watsonAssistantChatOptions = {
-        integrationID: "3a57fc26-bc28-4c2b-93c6-616d8bad69a8", // The ID of this integration.
-        region: "us-south", // The region your integration is hosted in.
-        serviceInstanceID: "b49157ce-2fd7-4ad3-b576-44ed1ad9e3f0", // The ID of your service instance.
+        integrationID: "3a57fc26-bc28-4c2b-93c6-616d8bad69a8",
+        region: "us-south",
+        serviceInstanceID: "b49157ce-2fd7-4ad3-b576-44ed1ad9e3f0",
         onLoad: async (instance) => { await instance.render(); }
     };
     setTimeout(function(){
@@ -106,6 +290,29 @@
         t.src="https://web-chat.global.assistant.watson.appdomain.cloud/versions/" + (window.watsonAssistantChatOptions.clientVersion || 'latest') + "/WatsonAssistantChatEntry.js";
         document.head.appendChild(t);
     });
+
+    // --- Theme Toggle Logic ---
+    const toggleSwitch = document.querySelector('#checkbox');
+    const currentTheme = localStorage.getItem('theme');
+
+    if (currentTheme) {
+        document.documentElement.setAttribute('class', currentTheme);
+        if (currentTheme === 'dark') {
+            toggleSwitch.checked = true;
+        }
+    }
+
+    function switchTheme(e) {
+        if (e.target.checked) {
+            document.documentElement.setAttribute('class', 'dark');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            document.documentElement.setAttribute('class', '');
+            localStorage.setItem('theme', 'light');
+        }
+    }
+
+    toggleSwitch.addEventListener('change', switchTheme, false);
 </script>
 
 </body>
